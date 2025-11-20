@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using IndividualLib;
 using ShapesLib;
 using iShapeLib;
+using PolygonLib;
 namespace PopulationLib
 {
     internal class Population

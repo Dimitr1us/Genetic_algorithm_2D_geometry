@@ -5,7 +5,7 @@ using PopulationLib;
 using IndividualLib;
 using iShapeLib;
 using SPoint = PointLib.Point;
-using SPolygon = ShapesLib.Polygon;
+using SPolygon = PolygonLib.Polygon;
 using Microsoft.VisualBasic.Logging;
 namespace Genetic_Algorithms
 {
@@ -24,7 +24,7 @@ namespace Genetic_Algorithms
             this.DoubleBuffered = true;
             Circle circle = new(new(100, 100), 50);
             population.Add(circle);
-            Polygon square = new Polygon(new List<SPoint>
+            SPolygon square = new SPolygon(new List<SPoint>
                 {
                     new SPoint(0, 0),
                     new SPoint(50, 0),
@@ -33,7 +33,7 @@ namespace Genetic_Algorithms
                 });
 
             
-            Polygon triangle = new Polygon(new List<SPoint>
+            SPolygon triangle = new SPolygon(new List<SPoint>
                 {
                     new SPoint(400, 200),
                     new SPoint(500, 300),
