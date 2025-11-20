@@ -5,48 +5,10 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-
+using PointLib;
+using Point = PointLib.Point;
 namespace ShapesLib
 {
-
-    public class Point
-    {
-        private float X, Y;
-        public Point(float x, float y)
-        {
-            X = x;
-            Y = y;
-        }
-
-        public Point(Point point)
-        {
-            X = point.Horisontal();
-            Y = point.Vertical();
-        }
-
-        public float Horisontal()
-        {
-            return X;
-        }
-
-        public float Vertical()
-        {
-            return Y;
-        }
-
-        public void Move(float x, float y)
-        {
-            X = X + x;
-            Y = Y + y;
-        }
-
-        public float Distance(Point point)
-        {
-            return (float)Math.Sqrt(Math.Pow(this.Horisontal() - point.Horisontal(), 2) + Math.Pow(this.Vertical() - point.Vertical(), 2));
-        }
-    }
-
-
     public class Side
     {
         private Point point1, point2;
@@ -129,17 +91,14 @@ namespace ShapesLib
 
         public Polygon Clone()
         {
-            // Получаем точки полигона
             Point[] pts = this.Points();
 
-            // Создаём новые точки (глубокая копия)
             List<Point> newPoints = new List<Point>();
             foreach (Point p in pts)
             {
                 newPoints.Add(new Point(p.Horisontal(), p.Vertical()));
             }
 
-            // Создаём новый полигон
             return new Polygon(newPoints);
         }
 

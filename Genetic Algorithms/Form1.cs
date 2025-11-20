@@ -3,7 +3,7 @@ using ShapesLib;
 using System.Drawing;
 using PopulationLib;
 using IndividualLib;
-using SPoint = ShapesLib.Point;
+using SPoint = PointLib.Point;
 using SPolygon = ShapesLib.Polygon;
 using Microsoft.VisualBasic.Logging;
 namespace Genetic_Algorithms

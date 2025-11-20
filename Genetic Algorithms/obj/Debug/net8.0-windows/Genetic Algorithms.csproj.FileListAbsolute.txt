@@ -14,3 +14,4 @@ D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\refin
 D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\Genetic Algorithms.pdb
 D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\Genetic Algorithms.genruntimeconfig.cache
 D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\ref\Genetic Algorithms.dll
+D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\Genetic Algorithms.sourcelink.json
