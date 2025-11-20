@@ -3,6 +3,7 @@ using ShapesLib;
 using System.Drawing;
 using PopulationLib;
 using IndividualLib;
+using iShapeLib;
 using SPoint = PointLib.Point;
 using SPolygon = ShapesLib.Polygon;
 using Microsoft.VisualBasic.Logging;

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IndividualLib;
 using ShapesLib;
+using iShapeLib;
 namespace PopulationLib
 {
     internal class Population

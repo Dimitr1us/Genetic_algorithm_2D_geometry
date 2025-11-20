@@ -7,22 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using PointLib;
 using SideLib;
+using iShapeLib;
 using Point = PointLib.Point;
 namespace ShapesLib
 {
-   
-    public interface iShape
-    {
-        public void Move(float x, float y);
-        public Point Center();
-
-        public void Rotate(float degrees);
-
-        public void Put(float x, float y);
-
-
-    }
-
     public interface iPolygonal
     {
         public Side NearistSide(Point point);
