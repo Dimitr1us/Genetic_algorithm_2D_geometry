@@ -5,17 +5,12 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using PointLib;
 using SideLib;
 using iShapeLib;
+using iPolygonalLib;
 using Point = PointLib.Point;
 namespace ShapesLib
 {
-    public interface iPolygonal
-    {
-        public Side NearistSide(Point point);
-        public float DistanceFromCenterToSide(Point point, Side side);
-    }
 
     public class Polygon : iPolygonal, iShape
     {
