@@ -10,7 +10,7 @@ using PolygonLib;
 using iShapeLib;
 using CircleLib;
 using Point = PointLib.Point;
-namespace ShapesLib
+namespace CrossShapesLib
 {
     public static class CrossShape
     {

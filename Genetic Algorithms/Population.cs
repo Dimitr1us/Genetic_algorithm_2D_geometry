@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IndividualLib;
-using ShapesLib;
+using CrossShapesLib;
 using iShapeLib;
 using PolygonLib;
 using CircleLib;

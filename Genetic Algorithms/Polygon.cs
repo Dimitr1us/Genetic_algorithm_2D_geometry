@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using iPolygonalLib;
 using iShapeLib;
-using ShapesLib;
+using CrossShapesLib;
 using SideLib;
 using Point = PointLib.Point;
 namespace PolygonLib
