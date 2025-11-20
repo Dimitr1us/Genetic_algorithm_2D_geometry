@@ -1,0 +1,16 @@
+D:\Projects\Genetic Algorithms\Genetic Algorithms\bin\Debug\net8.0-windows\Genetic Algorithms.exe
+D:\Projects\Genetic Algorithms\Genetic Algorithms\bin\Debug\net8.0-windows\Genetic Algorithms.deps.json
+D:\Projects\Genetic Algorithms\Genetic Algorithms\bin\Debug\net8.0-windows\Genetic Algorithms.runtimeconfig.json
+D:\Projects\Genetic Algorithms\Genetic Algorithms\bin\Debug\net8.0-windows\Genetic Algorithms.dll
+D:\Projects\Genetic Algorithms\Genetic Algorithms\bin\Debug\net8.0-windows\Genetic Algorithms.pdb
+D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\Genetic_Algorithms.Form1.resources
+D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\Genetic Algorithms.csproj.GenerateResource.cache
+D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\Genetic Algorithms.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\Genetic Algorithms.AssemblyInfoInputs.cache
+D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\Genetic Algorithms.AssemblyInfo.cs
+D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\Genetic Algorithms.csproj.CoreCompileInputs.cache
+D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\Genetic Algorithms.dll
+D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\refint\Genetic Algorithms.dll
+D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\Genetic Algorithms.pdb
+D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\Genetic Algorithms.genruntimeconfig.cache
+D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\ref\Genetic Algorithms.dll
