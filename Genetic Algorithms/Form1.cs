@@ -6,6 +6,7 @@ using IndividualLib;
 using iShapeLib;
 using SPoint = PointLib.Point;
 using SPolygon = PolygonLib.Polygon;
+using CircleLib;
 using Microsoft.VisualBasic.Logging;
 namespace Genetic_Algorithms
 {

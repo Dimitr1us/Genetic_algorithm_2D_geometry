@@ -7,6 +7,7 @@ using IndividualLib;
 using ShapesLib;
 using iShapeLib;
 using PolygonLib;
+using CircleLib;
 namespace PopulationLib
 {
     internal class Population
