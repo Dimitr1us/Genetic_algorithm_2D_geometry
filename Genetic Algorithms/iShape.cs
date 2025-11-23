@@ -14,5 +14,7 @@ namespace iShapeLib
         public void Rotate(float degrees);
 
         public void Put(float x, float y);
+
+        public bool CrossLines(int width, int height);
     }
 }

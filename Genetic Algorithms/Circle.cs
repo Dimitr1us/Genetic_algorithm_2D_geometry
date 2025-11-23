@@ -41,5 +41,12 @@ namespace CircleLib
         {
             return new Circle(new Point(Center().Horisontal(), Center().Vertical()), Radius());
         }
+
+        public bool CrossLines(int width,int height)
+        {
+            if (Center().Vertical() + radius > height || Center().Horisontal() + radius > width || Center().Horisontal() - radius < 0 || Center().Vertical() - radius < 0)
+                return true;
+            return false;
+        }
     }
 }

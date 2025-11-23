@@ -62,9 +62,6 @@ namespace IndividualLib
             shapes[i].Put(random.Next(0,width),random.Next(0,height));
         }
 
-
-
-
         public int Count()
         {
             return shapes.Count();
@@ -76,6 +73,7 @@ namespace IndividualLib
 
             for (int i = 0; i < shapes.Count; i++)
             {
+                if (shapes[i].CrossLines(width, height)) sum += -10;
                 for (int j = i + 1; j < shapes.Count; j++)
                 {
                     bool cross = CrossShape.Cross(shapes[i], shapes[j]);

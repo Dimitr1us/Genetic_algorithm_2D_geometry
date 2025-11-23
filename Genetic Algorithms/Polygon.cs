@@ -124,6 +124,16 @@ namespace PolygonLib
             p.Move(newX - p.Horisontal(), newY - p.Vertical());
         }
 
-
+        public bool CrossLines(int width,int height)
+        {
+            foreach (Side side in sides)
+            {
+                if (side.FirstPoint().Horisontal() > width || side.FirstPoint().Vertical() > height || side.FirstPoint().Horisontal() < 0 || side.FirstPoint().Vertical() < 0)
+                    return true;
+                if (side.SecondPoint().Horisontal() > width || side.SecondPoint().Vertical() > height || side.SecondPoint().Horisontal() < 0 || side.SecondPoint().Vertical() < 0)
+                    return true;
+            }
+            return false;
+        }
     }
 }
