@@ -16,5 +16,7 @@ namespace iShapeLib
         public void Put(float x, float y);
 
         public bool CrossLines(int width, int height);
+
+        public iShape Clone();
     }
 }

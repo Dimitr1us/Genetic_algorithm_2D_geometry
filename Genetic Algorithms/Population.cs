@@ -99,8 +99,8 @@ namespace PopulationLib
                 adapted.Add(best);
             }
 
-            for (int i = 0; i < adapted.Count-1; i = i + 2) {
-                adapted[i].Intersection(adapted[i + 1], random.Next(individuals[0].Count()));
+            for (int i = 0; i < adapted.Count - 1; i = i + 2) {
+                adapted[i].Intersection(adapted[i + 1]);
             }
 
 

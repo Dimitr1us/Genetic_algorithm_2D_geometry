@@ -37,7 +37,7 @@ namespace CircleLib
 
         public void Rotate(float degrees) { }
 
-        public Circle Clone()
+        public iShape Clone()
         {
             return new Circle(new Point(Center().Horisontal(), Center().Vertical()), Radius());
         }

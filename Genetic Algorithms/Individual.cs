@@ -50,11 +50,13 @@ namespace IndividualLib
             }
         }
 
-        public void Intersection(Individual individ, int i)
+        public void Intersection(Individual individ)
         {
-            iShape shape = shapes[i];
-            shapes[i].Put(individ[i].Center().Horisontal(),individ[i].Center().Vertical());
-            individ[i].Put(shape.Center().Horisontal(), shape.Center().Vertical());
+            //iShape shape = shapes[i];
+            //shapes[i].Put(individ[i].Center().Horisontal(),individ[i].Center().Vertical());
+            //individ[i].Put(shape.Center().Horisontal(), shape.Center().Vertical());
+            for (int i = 0; i < individ.Count() / 2; i++) { this[i] = individ[i].Clone(); }
+            for (int i = individ.Count()/2; i< individ.Count(); i++) { individ[i] = this[i].Clone(); }
         }
 
         public void Mutation()

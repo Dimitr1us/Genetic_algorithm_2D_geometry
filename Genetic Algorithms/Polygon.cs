@@ -35,7 +35,7 @@ namespace PolygonLib
             return this.center;
         }
 
-        public Polygon Clone()
+        public iShape Clone()
         {
             Point[] pts = this.Points();
 
