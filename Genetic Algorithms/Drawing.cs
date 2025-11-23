@@ -35,8 +35,6 @@ namespace DrawingLib
             {
                 points[i] = new System.Drawing.Point(Convert.ToInt32(spoints[i].Horisontal()), Convert.ToInt32(spoints[i].Vertical()));
             }
-
-
             g.DrawPolygon(Pens.Black, points);
         }
     }

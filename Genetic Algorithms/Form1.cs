@@ -14,13 +14,13 @@ namespace Genetic_Algorithms
     public partial class Form1 : Form
     {
 
-        Population population = new Population(120,3,400,400);
+        Population population = new Population(120, 3, 400, 400);
         public Form1()
         {
             InitializeComponent();
             label1.Text = "0";
-            this.Width = 400;
-            this.Height = 400;
+            this.Width = 818;
+            this.Height = 497;
 
             this.DoubleBuffered = true;
             Circle circle = new(new(100, 100), 50);
@@ -33,7 +33,7 @@ namespace Genetic_Algorithms
                     new SPoint(0, 50)
                 });
 
-            
+
             SPolygon triangle = new SPolygon(new List<SPoint>
                 {
                     new SPoint(400, 200),
@@ -44,20 +44,16 @@ namespace Genetic_Algorithms
 
             population.Add(triangle);
             population.Add(square);
-            this.Paint += new PaintEventHandler(this.OnPaint);
-
+            panel1.Paint += new PaintEventHandler(this.panel1_Paint);
             population.Mix();
         }
 
         private void OnPaint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            Drawings.Draw(population[0], e);
+            //Drawings.Draw(population[0], e);
             //e.Graphics.DrawPolygon(Pens.Black, new System.Drawing.Point[] { new System.Drawing.Point(0, 0), new System.Drawing.Point(50, 0), new System.Drawing.Point(50, 50), new System.Drawing.Point(0, 50) });
         }
-
-
-
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -66,7 +62,7 @@ namespace Genetic_Algorithms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            float x = 0.05f;
+            float x = 0.01f;
             population.Round(x);
             label1.Text = population.GetRound().ToString();
             //label2.Text = population.Max().ToString();
@@ -74,7 +70,12 @@ namespace Genetic_Algorithms
             float sum = 0;
             for (int i = 0; i < 120; i++) { sum = sum + population[i].Fitness(); }
             label3.Text = (sum / 120).ToString();
-            this.Invalidate();
+            panel1.Invalidate();
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            Drawings.Draw(population[0], e);
         }
     }
 }
