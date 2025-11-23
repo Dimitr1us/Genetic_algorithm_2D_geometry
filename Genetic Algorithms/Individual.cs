@@ -35,6 +35,7 @@ namespace IndividualLib
             return id;
         }
 
+
         public void Add(iShape shape)
         {
             shapes.Add(shape);
@@ -59,7 +60,7 @@ namespace IndividualLib
         public void Mutation()
         {
             int i = random.Next(0, shapes.Count());
-            shapes[i].Put(random.Next(0,width),random.Next(0,height));
+            shapes[i].Put(random.Next((int)shapes[i].Center().Horisontal()-10, (int)shapes[i].Center().Horisontal() + 10),random.Next((int)shapes[i].Center().Vertical() - 10, (int)shapes[i].Center().Vertical() + 10));
         }
 
         public int Count()
