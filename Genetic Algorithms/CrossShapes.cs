@@ -140,35 +140,32 @@ namespace CrossShapesLib
             return new Point(x, y);
         }
 
-        // --------- CIRCLE–POLYGON (slow but correct) ----------
         static float CirclePolygonIntersectionArea(Circle circle, Polygon polygon)
         {
-            // bounding box
-            float minX = polygon.Points().Min(p => p.Horisontal());
-            float maxX = polygon.Points().Max(p => p.Horisontal());
-            float minY = polygon.Points().Min(p => p.Vertical());
-            float maxY = polygon.Points().Max(p => p.Vertical());
+            // Аппроксимируем круг полигоном с 64 сторонами (достаточно точно и быстро)
+            Polygon circleApprox = ApproximateCircleAsPolygon(circle, sides: 64);
 
-            minX = Math.Min(minX, circle.Center().Horisontal() - circle.Radius());
-            maxX = Math.Max(maxX, circle.Center().Horisontal() + circle.Radius());
-            minY = Math.Min(minY, circle.Center().Vertical() - circle.Radius());
-            maxY = Math.Max(maxY, circle.Center().Vertical() + circle.Radius());
+            // Теперь используем существующий быстрый метод для двух полигонов
+            return PolygonPolygonIntersectionArea(circleApprox, polygon);
+        }
 
-            int steps = 220;
-            float dx = (maxX - minX) / steps;
-            float dy = (maxY - minY) / steps;
+        // Новая функция: Преобразует круг в выпуклый полигон с N сторонами
+        private static Polygon ApproximateCircleAsPolygon(Circle circle, int sides = 64)
+        {
+            var points = new List<Point>(sides);
+            Point center = circle.Center();
+            float r = circle.Radius();
+            float angleStep = 2f * MathF.PI / sides;
 
-            float area = 0;
+            for (int i = 0; i < sides; i++)
+            {
+                float angle = i * angleStep;
+                float x = center.Horisontal() + r * MathF.Cos(angle);
+                float y = center.Vertical() + r * MathF.Sin(angle);
+                points.Add(new Point(x, y));
+            }
 
-            for (float x = minX; x <= maxX; x += dx)
-                for (float y = minY; y <= maxY; y += dy)
-                {
-                    var p = new Point(x, y);
-                    if (PointInPolygon(p, polygon) &&
-                        circle.Center().Distance(p) <= circle.Radius())
-                        area += dx * dy;
-                }
-            return area;
+            return new Polygon(points);
         }
 
         static bool PointInPolygon(Point p, Polygon poly)
