@@ -14,7 +14,7 @@ namespace Genetic_Algorithms
     public partial class Form1 : Form
     {
 
-        Population population = new Population(120, 3, 400, 400);
+        Population population = new Population(60, 5, 400, 400);
         public Form1()
         {
             InitializeComponent();
@@ -68,8 +68,8 @@ namespace Genetic_Algorithms
             //label2.Text = population.Max().ToString();
             label2.Text = population[0].Fitness().ToString();
             float sum = 0;
-            for (int i = 0; i < 120; i++) { sum = sum + population[i].Fitness(); }
-            label3.Text = (sum / 120).ToString();
+            for (int i = 0; i < 60; i++) { sum = sum + population[i].Fitness(); }
+            label3.Text = (sum / 60).ToString();
             panel1.Invalidate();
         }
 

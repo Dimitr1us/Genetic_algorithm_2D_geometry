@@ -76,15 +76,12 @@ namespace IndividualLib
 
             for (int i = 0; i < shapes.Count; i++)
             {
-                if (shapes[i].CrossLines(width, height)) sum += -10;
+                //if (shapes[i].CrossLines(width, height)) sum += -10;
                 for (int j = i + 1; j < shapes.Count; j++)
                 {
                     float cross = CrossShape.Cross(shapes[i], shapes[j]);
 
-                    if (cross !=0)
-                        sum += weightIntersect * -1;
-                    else
-                        sum += weightNonIntersect * 1;
+                    sum -= cross; 
                 }
             }
 
