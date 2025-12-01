@@ -14,28 +14,28 @@ namespace CrossShapesLib
 {
     public static class CrossShape
     {
-        public static bool Cross(iShape shape1,iShape shape2)
+        public static float Cross(iShape shape1,iShape shape2)
         {
             return Cross((dynamic)shape1,(dynamic) shape2);
         }
 
-        public static bool Cross(Circle shape1, Circle shape2)
+        public static float Cross(Circle shape1, Circle shape2)
         {
-            return CrossShape.CrossCircles(shape1,shape2);
+            return CrossShape.CircleIntersectionArea(shape1,shape2);
         }
 
-        public static bool Cross(Polygon shape1, Polygon shape2)
+        public static float Cross(Polygon shape1, Polygon shape2)
         {
-            return CrossShape.CrossPolygons(shape1, shape2);
+            return CrossShape.PolygonPolygonIntersectionArea(shape1, shape2);
         }
 
-        public static bool Cross(Circle shape1, Polygon shape2)
+        public static float Cross(Circle shape1, Polygon shape2)
         {
-            return CrossShape.CrossCircleAndPolygon(shape2, shape1);
+            return CrossShape.CirclePolygonIntersectionArea(shape1, shape2);
         }
-        public static bool Cross(Polygon shape1, Circle shape2)
+        public static float Cross(Polygon shape1, Circle shape2)
         {
-            return CrossShape.CrossCircleAndPolygon(shape1, shape2);
+            return CrossShape.CirclePolygonIntersectionArea(shape2, shape1);
         }
 
         public static float Line(float a, float b, float x)
@@ -134,6 +134,150 @@ namespace CrossShapesLib
                 if (proj > max) max = proj;
             }
         }
+
+        public static float CircleIntersectionArea(Circle c1, Circle c2)
+        {
+            float r1 = c1.Radius();
+            float r2 = c2.Radius();
+            float d = c1.Center().Distance(c2.Center());
+
+            if (d >= r1 + r2)
+                return 0; // нет пересечения
+
+            if (d <= Math.Abs(r1 - r2))
+            {
+                // один круг полностью внутри другого
+                float smallerRadius = Math.Min(r1, r2);
+                return (float)(Math.PI * smallerRadius * smallerRadius);
+            }
+
+            float r1Sq = r1 * r1;
+            float r2Sq = r2 * r2;
+
+            float alpha = (float)Math.Acos((d * d + r1Sq - r2Sq) / (2 * d * r1));
+            float beta = (float)Math.Acos((d * d + r2Sq - r1Sq) / (2 * d * r2));
+
+            float area = alpha * r1Sq + beta * r2Sq - 0.5f * (float)Math.Sqrt((-d + r1 + r2) * (d + r1 - r2) * (d - r1 + r2) * (d + r1 + r2));
+            return area;
+        }
+
+        static float PolygonPolygonIntersectionArea(Polygon poly1, Polygon poly2)
+        {
+            var intersection = SutherlandHodgman(poly1.Points().ToList(), poly2.Points().ToList());
+            return PolygonArea(intersection);
+        }
+
+        public static List<Point> SutherlandHodgman(List<Point> subject, List<Point> clip)
+        {
+            if (subject.Count == 0 || clip.Count == 0)
+                return new List<Point>();
+
+            List<Point> output = new List<Point>(subject);
+            for (int i = 0; i < clip.Count; i++)
+            {
+                Point cp1 = clip[i];
+                Point cp2 = clip[(i + 1) % clip.Count];
+                List<Point> input = new List<Point>(output);
+                output.Clear();
+
+                if (input.Count == 0) break;
+
+                Point s = input[input.Count - 1];
+                foreach (Point e in input)
+                {
+                    if (Inside(e, cp1, cp2))
+                    {
+                        if (!Inside(s, cp1, cp2))
+                            output.Add(Intersection(s, e, cp1, cp2));
+                        output.Add(e);
+                    }
+                    else if (Inside(s, cp1, cp2))
+                    {
+                        output.Add(Intersection(s, e, cp1, cp2));
+                    }
+                    s = e;
+                }
+            }
+            return output;
+        }
+
+
+        private static bool Inside(Point p, Point cp1, Point cp2)
+        {
+            return (cp2.Horisontal() - cp1.Horisontal()) * (p.Vertical() - cp1.Vertical()) - (cp2.Vertical() - cp1.Vertical()) * (p.Horisontal() - cp1.Horisontal()) >= 0;
+        }
+
+        private static Point Intersection(Point s, Point e, Point cp1, Point cp2)
+        {
+            float A1 = e.Vertical() - s.Vertical();
+            float B1 = s.Horisontal() - e.Horisontal();
+            float C1 = A1 * s.Horisontal() + B1 * s.Vertical();
+
+            float A2 = cp2.Vertical() - cp1.Vertical();
+            float B2 = cp1.Horisontal() - cp2.Horisontal();
+            float C2 = A2 * cp1.Horisontal() + B2 * cp1.Vertical();
+
+            float det = A1 * B2 - A2 * B1;
+            if (Math.Abs(det) < 1e-6) return new Point(0, 0);
+
+            float x = (B2 * C1 - B1 * C2) / det;
+            float y = (A1 * C2 - A2 * C1) / det;
+            return new Point(x, y);
+        }
+
+        static float CirclePolygonIntersectionArea(Circle circle, Polygon polygon)
+        {
+            float minX = Math.Min(polygon.Points().Min(p => p.Horisontal()), circle.Center().Horisontal() - circle.Radius());
+            float maxX = Math.Max(polygon.Points().Max(p => p.Horisontal()), circle.Center().Horisontal() + circle.Radius());
+            float minY = Math.Min(polygon.Points().Min(p => p.Vertical()), circle.Center().Vertical() - circle.Radius());
+            float maxY = Math.Max(polygon.Points().Max(p => p.Vertical()), circle.Center().Vertical() + circle.Radius());
+
+            float area = 0f;
+            int steps = 200;
+            float dx = (maxX - minX) / steps;
+            float dy = (maxY - minY) / steps;
+
+            for (float x = minX; x <= maxX; x += dx)
+            {
+                for (float y = minY; y <= maxY; y += dy)
+                {
+                    var p = new Point(x, y);
+                    if (PointInsidePolygon(p, polygon) && circle.Center().Distance(p) <= circle.Radius())
+                        area += dx * dy;
+                }
+            }
+            return area;
+        }
+
+        static bool PointInsidePolygon(Point p, Polygon polygon)
+        {
+            bool inside = false;
+            var points = polygon.Points();
+            int j = points.Length - 1;
+            for (int i = 0; i < points.Length; i++)
+            {
+                if ((points[i].Vertical() > p.Vertical()) != (points[j].Vertical() > p.Vertical()) &&
+                    (p.Horisontal() < (points[j].Horisontal() - points[i].Horisontal()) * (p.Vertical() - points[i].Vertical()) / (points[j].Vertical() - points[i].Vertical()) + points[i].Horisontal()))
+                {
+                    inside = !inside;
+                }
+                j = i;
+            }
+            return inside;
+        }
+
+        static float PolygonArea(List<Point> points)
+        {
+            float area = 0;
+            int j = points.Count - 1;
+            for (int i = 0; i < points.Count; i++)
+            {
+                area += (points[j].Horisontal() + points[i].Horisontal()) * (points[j].Vertical() - points[i].Vertical());
+                j = i;
+            }
+            return Math.Abs(area / 2f);
+        }
+
 
 
     }
