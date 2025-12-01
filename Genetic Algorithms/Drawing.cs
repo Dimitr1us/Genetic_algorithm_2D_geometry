@@ -1,41 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// DrawingLib/Drawings.cs — РАБОЧАЯ ВЕРСИЯ ПОД НОВЫЙ Individual
+using System.Drawing;
 using CircleLib;
-using IndividualLib;
 using PolygonLib;
-using SPoint = PointLib.Point;
-using SPolygon = PolygonLib.Polygon;
+using IndividualLib;
+using PointLib;
+
 namespace DrawingLib
 {
     public static class Drawings
     {
+        // Главный метод — теперь принимает Individual из нового кода
         public static void Draw(Individual individual, PaintEventArgs e)
         {
-            for (int i = 0; i < individual.Count(); i++)
+            foreach (var shape in individual.Shapes)
             {
-                DrawShape((dynamic)individual[i], e);
+                // dynamic позволяет рисовать и Circle, и Polygon без if-ов
+                DrawShape((dynamic)shape, e.Graphics);
             }
         }
 
-        public static void DrawShape(Circle circle, PaintEventArgs e)
+        // Рисуем круг
+        private static void DrawShape(Circle circle, Graphics g)
         {
-            Graphics g = e.Graphics;
-            g.DrawEllipse(Pens.Black, circle.Center().Horisontal() - circle.Radius(), circle.Center().Vertical() - circle.Radius(), 2 * circle.Radius(), 2 * circle.Radius());
+            float x = circle.Center().Horisontal() - circle.Radius();
+            float y = circle.Center().Vertical() - circle.Radius();
+            float d = 2 * circle.Radius();
+
+            g.DrawEllipse(Pens.Black, x, y, d, d);
+            // Можно добавить заливку:
+            // g.FillEllipse(new SolidBrush(Color.FromArgb(100, 255, 100, 100)), x, y, d, d);
         }
 
-        public static void DrawShape(SPolygon polygon, PaintEventArgs e)
+        // Рисуем полигон
+        private static void DrawShape(Polygon polygon, Graphics g)
         {
-            Graphics g = e.Graphics;
-            SPoint[] spoints = polygon.Points();
-            System.Drawing.Point[] points = new System.Drawing.Point[spoints.Length];
-            for (int i = 0; i < points.Length; i++)
-            {
-                points[i] = new System.Drawing.Point(Convert.ToInt32(spoints[i].Horisontal()), Convert.ToInt32(spoints[i].Vertical()));
-            }
+            var points = polygon.Points()
+                .Select(p => new PointF(p.Horisontal(), p.Vertical()))
+                .ToArray();
+
             g.DrawPolygon(Pens.Black, points);
+            // Заливка (полупрозрачная):
+            // g.FillPolygon(new SolidBrush(Color.FromArgb(120, 100, 150, 255)), points);
         }
     }
 }

@@ -8,45 +8,13 @@ using SPoint = PointLib.Point;
 using SPolygon = PolygonLib.Polygon;
 using CircleLib;
 using Microsoft.VisualBasic.Logging;
+using PolygonLib;
 namespace Genetic_Algorithms
 {
 
     public partial class Form1 : Form
     {
-
-        Population population = new Population(60, 5, 400, 400);
-        public Form1()
-        {
-            InitializeComponent();
-            label1.Text = "0";
-            this.Width = 818;
-            this.Height = 497;
-
-            this.DoubleBuffered = true;
-            Circle circle = new(new(100, 100), 50);
-            population.Add(circle);
-            SPolygon square = new SPolygon(new List<SPoint>
-                {
-                    new SPoint(0, 0),
-                    new SPoint(50, 0),
-                    new SPoint(50, 50),
-                    new SPoint(0, 50)
-                });
-
-
-            SPolygon triangle = new SPolygon(new List<SPoint>
-                {
-                    new SPoint(400, 200),
-                    new SPoint(500, 300),
-                    new SPoint(300, 300)
-                });
-
-
-            population.Add(triangle);
-            population.Add(square);
-            panel1.Paint += new PaintEventHandler(this.panel1_Paint);
-            population.Mix();
-        }
+        Population population = new(80, 400, 400);
 
         private void OnPaint(object sender, PaintEventArgs e)
         {
@@ -60,22 +28,44 @@ namespace Genetic_Algorithms
 
         }
 
+        public Form1()
+        {
+            InitializeComponent();
+            this.DoubleBuffered = true;
+
+            var circle = new Circle(new PointLib.Point(200, 200), 40);
+            var square = new Polygon(new List<PointLib.Point>
+        {
+            new(0,0), new(80,0), new(80,80), new(0,80)
+        });
+            var triangle = new Polygon(new List<PointLib.Point>
+        {
+            new(0,0), new(100,0), new(50,86)
+        });
+
+            population.Add(circle);
+            population.Add(square);
+            population.Add(triangle);
+
+            population.InitializeRandom();
+            panel1.Paint += panel1_Paint;
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            float x = 0.01f;
-            population.Round(x);
-            label1.Text = population.GetRound().ToString();
-            //label2.Text = population.Max().ToString();
-            label2.Text = population[0].Fitness().ToString();
-            float sum = 0;
-            for (int i = 0; i < 60; i++) { sum = sum + population[i].Fitness(); }
-            label3.Text = (sum / 60).ToString();
+            population.NextGeneration(mutationRate: 0.3);
+
+            label1.Text = $"Generation: {population.Generation}";
+            label2.Text = $"Best: {population.Best.Fitness():F2}";
+            label3.Text = $"Avg: {population.AverageFitness():F2}";
+
             panel1.Invalidate();
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            Drawings.Draw(population[0], e);
+            e.Graphics.Clear(Color.White);
+            Drawings.Draw(population.Best, e); 
         }
     }
 }

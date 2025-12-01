@@ -1,119 +1,74 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Population.cs — РАБОЧАЯ + КРАСИВАЯ
 using IndividualLib;
-using CrossShapesLib;
 using iShapeLib;
-using PolygonLib;
-using CircleLib;
+
 namespace PopulationLib
 {
-    internal class Population
+    public class Population
     {
-        private Random random = new Random();
-        int number_individuals, number_in_group, round, width, height;
-        List<Individual> individuals;
-        List<float> fitnesses;
-        public Population(int n, int k, int x, int y)
+        private readonly Random rnd = new();
+        private readonly List<Individual> individuals = new();
+        public int Generation { get; private set; } = 0;
+        public Individual Best => individuals.MaxBy(i => i.Fitness())!;
+
+        public float AverageFitness() => individuals.Count == 0 ? 0f : individuals.Average(i => i.Fitness());
+
+        public Population(int size, int width, int height)
         {
-            number_in_group = k;
-            individuals = new List<Individual>();
-            for (int i = 0; i < n; i++)
-            {
-                individuals.Add(new Individual(x, y,i));
-            }
-            number_individuals = n;
-            width = x;
-            height = y;
-            round = 0;
+            for (int i = 0; i < size; i++)
+                individuals.Add(new Individual(width, height));
         }
 
-        public void Add(iShape shape)
+        public void Add(iShape prototype)
         {
-            if (shape is Circle circle)
-            {
-                foreach (Individual individual in individuals)
-                {
-                    individual.Add(circle.Clone());
-                }
-            }
-            if (shape is Polygon polygon)
-            {
-                foreach (Individual individual in individuals)
-                {
-                    individual.Add(polygon.Clone());
-                }
-            }
+            foreach (var ind in individuals)
+                ind.Add(prototype);
         }
 
-        public void Mix()
+        public void InitializeRandom()
         {
-            fitnesses = new List<float>();
-            foreach (Individual individual in individuals)
+            foreach (var ind in individuals)
+                ind.Randomize();
+        }
+
+        public void NextGeneration(double mutationRate = 0.3, int tournamentSize = 5)
+        {
+            Generation++;
+            var newGen = new List<Individual>();
+
+            // Элитизм: 2 лучших проходят автоматически
+            var sorted = individuals.OrderByDescending(x => x.Fitness()).ToList();
+            newGen.Add(sorted[0].Clone());
+            if (individuals.Count > 1) newGen.Add(sorted[1].Clone());
+
+            // Турнирный отбор + кроссовер + мутация
+            while (newGen.Count < individuals.Count)
             {
-                individual.Mix();
-                fitnesses.Add(individual.Fitness());
+                var p1 = TournamentSelect(tournamentSize);
+                var p2 = TournamentSelect(tournamentSize);
+
+                var child = p1.Crossover(p2);
+                child.Mutate(mutationRate);
+                newGen.Add(child);
             }
+
+            individuals.Clear();
+            individuals.AddRange(newGen);
         }
 
-        public float Max()
+        private Individual TournamentSelect(int k)
         {
-            return fitnesses.Max();
-        }
-
-        public Individual this[int index]
-        {
-            get => individuals[index];
-        }
-
-        public int GetRound()
-        {
-            return round;
-        }
-
-        public void Round(float probability_mutation = 0.1f)
-        {
-            round += 1;
-            //int number_genes = random.Next(1,individuals[0].Count());
-
-            List<Individual> notSelected = new List<Individual>(individuals);
-            List<Individual> adapted = new List<Individual>();
-
-            while (notSelected.Count > 0)
+            Individual best = individuals[rnd.Next(individuals.Count)];
+            for (int i = 1; i < k; i++)
             {
-                List<Individual> group = new List<Individual>();
-
-                for (int i = 0; i < number_in_group && notSelected.Count > 0; i++)
-                {
-                    int idx = random.Next(notSelected.Count);
-                    group.Add(notSelected[idx]);
-                    notSelected.RemoveAt(idx);
-                }
-
-                Individual best = group
-            .OrderByDescending(ind => fitnesses[ind.Id()])
-            .First();
-
-                adapted.Add(best);
+                var cand = individuals[rnd.Next(individuals.Count)];
+                if (cand.Fitness() > best.Fitness())
+                    best = cand;
             }
-
-            for (int i = 0; i < adapted.Count - 1; i = i + 2) {
-                adapted[i].Intersection(adapted[i + 1]);
-            }
-
-
-            foreach (Individual individual in individuals)
-            {
-                if (random.NextDouble() <= probability_mutation)
-                    individual.Mutation();
-            }
-
-            for (int i = 0; i < adapted.Count; i++)
-            {
-                fitnesses[adapted[i].Id()] = adapted[i].Fitness();
-            }
+            return best;
         }
+
+        public Individual this[int i] => individuals[i];
+
     }
 }
