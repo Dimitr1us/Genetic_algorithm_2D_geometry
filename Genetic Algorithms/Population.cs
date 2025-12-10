@@ -1,5 +1,4 @@
-﻿// Population.cs — РАБОЧАЯ + КРАСИВАЯ
-using IndividualLib;
+﻿using IndividualLib;
 using iShapeLib;
 
 namespace PopulationLib
@@ -36,12 +35,11 @@ namespace PopulationLib
             Generation++;
             var newGen = new List<Individual>();
 
-            // Элитизм: 2 лучших проходят автоматически
+            
             var sorted = individuals.OrderByDescending(x => x.Fitness()).ToList();
             newGen.Add(sorted[0].Clone());
             if (individuals.Count > 1) newGen.Add(sorted[1].Clone());
 
-            // Турнирный отбор + кроссовер + мутация
             while (newGen.Count < individuals.Count)
             {
                 var p1 = TournamentSelect(tournamentSize);

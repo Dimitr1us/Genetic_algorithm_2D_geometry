@@ -10,7 +10,6 @@ namespace CrossShapesLib
 {
     public static class CrossShape
     {
-        // --------- PUBLIC ----------
         public static float Cross(iShape s1, iShape s2) => Cross((dynamic)s1, (dynamic)s2);
 
         public static float Cross(Circle c1, Circle c2)
@@ -25,7 +24,6 @@ namespace CrossShapesLib
         public static float Cross(Polygon p, Circle c)
             => CirclePolygonIntersectionArea(c, p);
 
-        // --------- LINE HELPERS ----------
         public static float Line(float a, float b, float x) => a * x + b;
 
         public static (float a, float b) Parametres(Point p1, Point p2)
@@ -42,7 +40,7 @@ namespace CrossShapesLib
             return new Point(x, L1.a * x + L1.b);
         }
 
-        // --------- CIRCLE–CIRCLE ----------
+        
         public static float CircleIntersectionArea(Circle c1, Circle c2)
         {
             float r1 = c1.Radius();
@@ -51,7 +49,6 @@ namespace CrossShapesLib
 
             if (d >= r1 + r2) return 0;
 
-            // Один внутри другого
             if (d <= Math.Abs(r1 - r2))
                 return MathF.PI * MathF.Min(r1, r2) * MathF.Min(r1, r2);
 
@@ -69,7 +66,7 @@ namespace CrossShapesLib
                        (d + r1 + r2));
         }
 
-        // --------- POLYGON–POLYGON ----------
+        
         static float PolygonPolygonIntersectionArea(Polygon a, Polygon b)
         {
             var inter = SutherlandHodgman(a.Points().ToList(), b.Points().ToList());
@@ -77,7 +74,7 @@ namespace CrossShapesLib
             return PolygonArea(inter);
         }
 
-        // Core clipping
+        
         public static List<Point> SutherlandHodgman(List<Point> subject, List<Point> clip)
         {
             if (subject.Count == 0 || clip.Count == 0)
@@ -105,11 +102,11 @@ namespace CrossShapesLib
                     if (currIn)
                     {
                         if (!prevIn)
-                            output.Add(LineIntersection(prev, curr, A, B)); // in-cross
-                        output.Add(curr); // keep
+                            output.Add(LineIntersection(prev, curr, A, B));
+                        output.Add(curr); 
                     }
                     else if (prevIn)
-                        output.Add(LineIntersection(prev, curr, A, B)); // out-cross
+                        output.Add(LineIntersection(prev, curr, A, B)); 
 
                     prev = curr;
                 }
@@ -142,14 +139,13 @@ namespace CrossShapesLib
 
         static float CirclePolygonIntersectionArea(Circle circle, Polygon polygon)
         {
-            // Аппроксимируем круг полигоном с 64 сторонами (достаточно точно и быстро)
             Polygon circleApprox = ApproximateCircleAsPolygon(circle, sides: 64);
 
-            // Теперь используем существующий быстрый метод для двух полигонов
+            
             return PolygonPolygonIntersectionArea(circleApprox, polygon);
         }
 
-        // Новая функция: Преобразует круг в выпуклый полигон с N сторонами
+        
         private static Polygon ApproximateCircleAsPolygon(Circle circle, int sides = 64)
         {
             var points = new List<Point>(sides);

@@ -14,13 +14,13 @@ namespace Genetic_Algorithms
 
     public partial class Form1 : Form
     {
+        private readonly Random rnd = new();
+        int width = 400, height = 400;
         Population population = new(80, 400, 400);
 
         private void OnPaint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            //Drawings.Draw(population[0], e);
-            //e.Graphics.DrawPolygon(Pens.Black, new System.Drawing.Point[] { new System.Drawing.Point(0, 0), new System.Drawing.Point(50, 0), new System.Drawing.Point(50, 50), new System.Drawing.Point(0, 50) });
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -65,7 +65,23 @@ namespace Genetic_Algorithms
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.Clear(Color.White);
-            Drawings.Draw(population.Best, e); 
+            Drawings.Draw(population.Best, e);
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            New_circle new_Circle = new New_circle();
+            new_Circle.NewRadius += (radius) =>
+            {
+                Circle circle = new Circle(new SPoint(rnd.Next(width), rnd.Next(height)), radius);
+                population.Add(circle);
+            };
+            new_Circle.ShowDialog();
         }
     }
 }

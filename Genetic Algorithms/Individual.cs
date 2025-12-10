@@ -32,7 +32,6 @@ namespace IndividualLib
             }
         }
 
-        // Uniform crossover — лучший для этой задачи
         public Individual Crossover(Individual other)
         {
             var child = new Individual(Width, Height);
@@ -70,7 +69,7 @@ namespace IndividualLib
             for (int i = 0; i < shapes.Count; i++)
                 for (int j = i + 1; j < shapes.Count; j++)
                     penalty += CrossShape.Cross(shapes[i], shapes[j]);
-            return -penalty; // максимизация
+            return -penalty;
         }
 
         public Individual Clone()
