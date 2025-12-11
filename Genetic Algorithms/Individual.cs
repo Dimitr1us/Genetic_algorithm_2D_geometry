@@ -1,5 +1,4 @@
-﻿// Individual.cs — ЧИСТАЯ РАБОЧАЯ ВЕРСИЯ
-using System;
+﻿using System;
 using System.Collections.Generic;
 using CrossShapesLib;
 using iShapeLib;

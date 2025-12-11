@@ -15,8 +15,8 @@ namespace Genetic_Algorithms
     public partial class Form1 : Form
     {
         private readonly Random rnd = new();
-        int width = 400, height = 400;
-        Population population = new(80, 400, 400);
+        int width, height;
+        Population population;
 
         private void OnPaint(object sender, PaintEventArgs e)
         {
@@ -28,8 +28,10 @@ namespace Genetic_Algorithms
 
         }
 
-        public Form1()
+        public Form1(int width=400,int height=400,int individuals=80)
         {
+            population = new Population(individuals,width,height);
+            this.width = width; this.height = height;
             InitializeComponent();
             this.DoubleBuffered = true;
 
@@ -53,6 +55,7 @@ namespace Genetic_Algorithms
 
         private void button1_Click(object sender, EventArgs e)
         {
+            button2.Visible = false;
             population.NextGeneration(mutationRate: 0.3);
 
             label1.Text = $"Generation: {population.Generation}";
@@ -82,6 +85,7 @@ namespace Genetic_Algorithms
                 population.Add(circle);
             };
             new_Circle.ShowDialog();
+            panel1.Invalidate();
         }
     }
 }

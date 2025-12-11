@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,14 +23,8 @@ namespace Genetic_Algorithms
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             entered_Value = textBox1.Text;
-            if (!float.TryParse(entered_Value, out float value))
-            {
-                label2.Visible = true; 
-            }
-            else
-            {
-                label2.Visible = false;
-            }
+            label2.Visible = float.TryParse(entered_Value, out float value) ? false : true;
+            button1.Visible = !label2.Visible;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -41,7 +36,7 @@ namespace Genetic_Algorithms
             }
             else
             {
-                label1.Visible = false;
+                throw new Exception("Entered value must be float.");
             }
         }
     }

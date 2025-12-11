@@ -17,3 +17,4 @@ D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\ref\G
 D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\Genetic Algorithms.sourcelink.json
 D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\Genetic_Algorithms.New_circle.resources
 D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\Genetic_Algorithms.New_figure.resources
+D:\Projects\Genetic Algorithms\Genetic Algorithms\obj\Debug\net8.0-windows\Genetic_Algorithms.CreatingPopulation.resources
