@@ -66,9 +66,9 @@
             label2.AutoSize = true;
             label2.Location = new Point(12, 108);
             label2.Name = "label2";
-            label2.Size = new Size(197, 20);
+            label2.Size = new Size(253, 20);
             label2.TabIndex = 3;
-            label2.Text = "Entered value must be digits";
+            label2.Text = "Entered value must be positive digits";
             label2.Visible = false;
             // 
             // New_circle

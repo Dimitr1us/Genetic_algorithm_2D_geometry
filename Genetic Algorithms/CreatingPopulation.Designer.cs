@@ -104,9 +104,9 @@
             label4.AutoSize = true;
             label4.Location = new Point(12, 228);
             label4.Name = "label4";
-            label4.Size = new Size(222, 20);
+            label4.Size = new Size(278, 20);
             label4.TabIndex = 7;
-            label4.Text = "Entered values must be integers.";
+            label4.Text = "Entered values must be positive integers.";
             label4.Visible = false;
             // 
             // CreatingPopulation

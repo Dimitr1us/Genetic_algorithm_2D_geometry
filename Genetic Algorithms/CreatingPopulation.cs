@@ -22,8 +22,8 @@ namespace Genetic_Algorithms
         private void button1_Click(object sender, EventArgs e)
         {
             Form1 form1 = new Form1(int.Parse(width), int.Parse(height), int.Parse(individuals));
-            form1.ShowDialog();
-            this.Close();
+            form1.Show();
+            this.Hide();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -49,7 +49,9 @@ namespace Genetic_Algorithms
 
         private bool isVisible()
         {
-            return int.TryParse(width, out int value) && int.TryParse(height, out int value1) && int.TryParse(individuals, out int value2);
+            var val =  int.TryParse(width, out int value) && int.TryParse(height, out int value1) && int.TryParse(individuals, out int value2);
+            if (val) val = int.Parse(width) > 0 && int.Parse(height) > 0 && int.Parse(individuals) > 0;
+            return val;
         }
     }
 }

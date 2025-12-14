@@ -28,19 +28,21 @@ namespace Genetic_Algorithms
 
         }
 
-        public Form1(int width=400,int height=400,int individuals=80)
+        public Form1(int width = 400, int height = 400, int individuals = 80)
         {
-            population = new Population(individuals,width,height);
+            population = new Population(individuals, width, height);
             this.width = width; this.height = height;
+
             InitializeComponent();
+            panel1.Size = new System.Drawing.Size(width, height);
             this.DoubleBuffered = true;
 
-            var circle = new Circle(new PointLib.Point(200, 200), 40);
-            var square = new Polygon(new List<PointLib.Point>
+            var circle = new Circle(new SPoint(200, 200), 40);
+            var square = new Polygon(new List<SPoint>
         {
             new(0,0), new(80,0), new(80,80), new(0,80)
         });
-            var triangle = new Polygon(new List<PointLib.Point>
+            var triangle = new Polygon(new List<SPoint>
         {
             new(0,0), new(100,0), new(50,86)
         });
@@ -56,6 +58,7 @@ namespace Genetic_Algorithms
         private void button1_Click(object sender, EventArgs e)
         {
             button2.Visible = false;
+            button3.Visible = false;
             population.NextGeneration(mutationRate: 0.3);
 
             label1.Text = $"Generation: {population.Generation}";
@@ -86,6 +89,24 @@ namespace Genetic_Algorithms
             };
             new_Circle.ShowDialog();
             panel1.Invalidate();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            New_polygon new_Polygon = new New_polygon();
+
+            new_Polygon.newPoints += (points) => { 
+                Polygon polygon = new Polygon(points);
+                population.Add(polygon);
+            };
+
+            new_Polygon.ShowDialog();
+            panel1.Invalidate();
+        }
+
+        private void New_Polygon_newPoints(List<SPoint> obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }
