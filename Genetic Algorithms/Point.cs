@@ -9,6 +9,7 @@ namespace PointLib
     public class Point
     {
         private float X, Y;
+
         public Point(float x, float y)
         {
             X = x;

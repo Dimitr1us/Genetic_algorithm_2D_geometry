@@ -32,24 +32,10 @@ namespace Genetic_Algorithms
         {
             population = new Population(individuals, width, height);
             this.width = width; this.height = height;
+            this.ClientSize = new Size(width + 150,height);
 
             InitializeComponent();
-            panel1.Size = new System.Drawing.Size(width, height);
             this.DoubleBuffered = true;
-
-            var circle = new Circle(new SPoint(200, 200), 40);
-            var square = new Polygon(new List<SPoint>
-        {
-            new(0,0), new(80,0), new(80,80), new(0,80)
-        });
-            var triangle = new Polygon(new List<SPoint>
-        {
-            new(0,0), new(100,0), new(50,86)
-        });
-
-            population.Add(circle);
-            population.Add(square);
-            population.Add(triangle);
 
             population.InitializeRandom();
             panel1.Paint += panel1_Paint;
@@ -88,6 +74,7 @@ namespace Genetic_Algorithms
                 population.Add(circle);
             };
             new_Circle.ShowDialog();
+            population.InitializeRandom();
             panel1.Invalidate();
         }
 
@@ -101,6 +88,7 @@ namespace Genetic_Algorithms
             };
 
             new_Polygon.ShowDialog();
+            population.InitializeRandom();
             panel1.Invalidate();
         }
 
